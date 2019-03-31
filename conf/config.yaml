@@ -1,0 +1,12 @@
+redis:
+  host: 127.0.0.1:6379
+  password:
+  maxIdle: 30
+  maxActive: 30
+  idleTimeout: 200
+
+datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/db_example
+    username: springuser
+    password: 123456
