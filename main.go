@@ -22,8 +22,8 @@ func main() {
 	// Recovery middleware recovers from any panics and writes a 500 if there was one.
 	router.Use(gin.Recovery())
 
-	redigo.SetWithExpire("name", "fang", 60*60)
-	value, err := redigo.Get("name")
+	redigo.SetStrWithExpire("name", "fang", 60*60)
+	value, err := redigo.GetStr("name")
 	if err != nil {
 		log.Println("Read redis key name failed")
 		panic("Read redis key name failed")

@@ -9,6 +9,7 @@ import (
 )
 
 var RedisPools *redis.Pool
+
 func Init() error {
 	RedisPools = &redis.Pool{
 		MaxIdle:     config.RedisConfig.MaxIdle,

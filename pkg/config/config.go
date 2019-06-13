@@ -55,7 +55,7 @@ func Init() {
 }
 func InitRedisTest() {
 	var data = `redis:
-  host: 127.0.0.1:6379
+  host: 192.168.137.133:6379
   password:
   maxIdle: 30
   maxActive: 30

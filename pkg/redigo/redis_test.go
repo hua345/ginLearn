@@ -27,7 +27,7 @@ func BenchmarkSetStr(b *testing.B) {
 	b.StopTimer() //停止压力测试的时间计数
 	config.InitRedisTest()
 	Init()
-	b.StartTimer() //重新开始时间
+	b.StartTimer()             //重新开始时间
 	for i := 0; i < b.N; i++ { //use b.N for looping
 		SetStrWithExpire(testKey, testValue, 60*60)
 	}
@@ -40,7 +40,7 @@ func BenchmarkSet(b *testing.B) {
 	Init()
 	conn := RedisPools.Get()
 	defer conn.Close()
-	b.StartTimer() //重新开始时间
+	b.StartTimer()             //重新开始时间
 	for i := 0; i < b.N; i++ { //use b.N for looping
 		_, err := conn.Do("SET", testKey, testValue, "EX", 60*60)
 		if err != nil {
@@ -53,7 +53,7 @@ func BenchmarkGetStr(b *testing.B) {
 	b.StopTimer() //停止压力测试的时间计数
 	config.InitRedisTest()
 	Init()
-	b.StartTimer() //重新开始时间
+	b.StartTimer()             //重新开始时间
 	for i := 0; i < b.N; i++ { //use b.N for looping
 		GetStr(testKey)
 	}
@@ -65,7 +65,7 @@ func BenchmarkGet(b *testing.B) {
 	Init()
 	conn := RedisPools.Get()
 	defer conn.Close()
-	b.StartTimer() //重新开始时间
+	b.StartTimer()             //重新开始时间
 	for i := 0; i < b.N; i++ { //use b.N for looping
 		_, err := redis.String(conn.Do("GET", testKey))
 		if err != nil {

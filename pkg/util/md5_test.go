@@ -34,7 +34,7 @@ func TestEncodeMD5(t *testing.T) {
 func BenchmarkEncodeMD5(b *testing.B) {
 	b.StopTimer() //停止压力测试的时间计数
 	//做一些初始化的工作,例如读取文件数据,数据库连接之类的,
-	b.StartTimer() //重新开始时间
+	b.StartTimer()             //重新开始时间
 	for i := 0; i < b.N; i++ { //use b.N for looping
 		EncodeMD5("hello")
 	}
