@@ -2,21 +2,22 @@ package config
 
 import (
 	"fmt"
+	"ginLearn/pkg/file"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
+	"os"
 	"time"
 )
 
-type Server struct {
-	RunMode      string
-	HttpPort     int
-	ReadTimeout  time.Duration
-	WriteTimeout time.Duration
+type App struct {
+	JwtSecret string `yaml:"jwtSecret"`
+	LogPath   string `yaml:"logPath"`
 }
-
-var ServerSetting = &Server{}
-
+type Server struct {
+	RunMode  string `yaml:"runMode"`
+	HttpPort int    `yaml:"httpPort"`
+}
 type DataSource struct {
 	Host        string `yaml:"host"`
 	Username    string `yaml:"username"`
@@ -24,12 +25,6 @@ type DataSource struct {
 	Port        string `yaml:"port"`
 	Name        string `yaml:"name"`
 	TablePrefix string
-}
-
-var DataSourceConfig = DataSource{}
-
-type Yaml struct {
-	Redis Redis `yaml:"redis"`
 }
 type Redis struct {
 	Host        string        `yaml:"host"`
@@ -40,17 +35,38 @@ type Redis struct {
 }
 
 var yamlConfig = Yaml{}
-var RedisConfig = Redis{}
+var AppConfig App
+var ServerConfig Server
+var RedisConfig Redis
+var DefaultConfigFile = "configs/config.yaml"
+var DataSourceConfig DataSource
 
-func Init() {
-	yamlFile, err := ioutil.ReadFile("conf/config.yaml")
+type Yaml struct {
+	App    App    `yaml:"app"`
+	Server Server `yaml:"server"`
+	Redis  Redis  `yaml:"redis"`
+}
+
+func Setup(configPath string) {
+	path := DefaultConfigFile
+	if len(configPath) > 0 {
+		path = configPath
+	}
+	configExist, _ := file.PathExists(path)
+	if true != configExist {
+		log.Println("配置文件 " + path + "没有找到!")
+		os.Exit(-1)
+	}
+	yamlFile, err := ioutil.ReadFile(path)
 	if err != nil {
-		log.Fatalf("setting.Setup, fail to parse 'conf/config.yaml': %v", err)
+		log.Fatalf("setting.Setup, fail to parse "+DefaultConfigFile+": %v", err)
 	}
 	err = yaml.Unmarshal(yamlFile, &yamlConfig)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
+	AppConfig = yamlConfig.App
+	ServerConfig = yamlConfig.Server
 	RedisConfig = yamlConfig.Redis
 }
 func InitRedisTest() {
