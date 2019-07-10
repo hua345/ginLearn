@@ -71,7 +71,7 @@ func Setup(configPath string) {
 }
 func InitRedisTest() {
 	var data = `redis:
-  host: 192.168.137.133:6379
+  host: 192.168.137.128:6379
   password:
   maxIdle: 30
   maxActive: 30

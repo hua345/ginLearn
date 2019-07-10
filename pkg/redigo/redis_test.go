@@ -1,13 +1,13 @@
 package redigo
 
 import (
-	"ginLearn/internal/pkg"
+	"ginLearn/pkg/config"
 	"github.com/gomodule/redigo/redis"
 	"testing"
 )
 
 func TestSetAndGet(t *testing.T) {
-	pkg.InitRedisTest()
+	config.InitRedisTest()
 	Init()
 	testKey := "name"
 	testValue := "fang"
@@ -25,7 +25,7 @@ func BenchmarkSetStr(b *testing.B) {
 	testKey := "name"
 	testValue := "fang"
 	b.StopTimer() //停止压力测试的时间计数
-	pkg.InitRedisTest()
+	config.InitRedisTest()
 	Init()
 	b.StartTimer()             //重新开始时间
 	for i := 0; i < b.N; i++ { //use b.N for looping
@@ -36,7 +36,7 @@ func BenchmarkSet(b *testing.B) {
 	testKey := "name"
 	testValue := "fang"
 	b.StopTimer() //停止压力测试的时间计数
-	pkg.InitRedisTest()
+	config.InitRedisTest()
 	Init()
 	conn := RedisPools.Get()
 	defer conn.Close()
@@ -51,7 +51,7 @@ func BenchmarkSet(b *testing.B) {
 func BenchmarkGetStr(b *testing.B) {
 	testKey := "name"
 	b.StopTimer() //停止压力测试的时间计数
-	pkg.InitRedisTest()
+	config.InitRedisTest()
 	Init()
 	b.StartTimer()             //重新开始时间
 	for i := 0; i < b.N; i++ { //use b.N for looping
@@ -61,7 +61,7 @@ func BenchmarkGetStr(b *testing.B) {
 func BenchmarkGet(b *testing.B) {
 	testKey := "name"
 	b.StopTimer() //停止压力测试的时间计数
-	pkg.InitRedisTest()
+	config.InitRedisTest()
 	Init()
 	conn := RedisPools.Get()
 	defer conn.Close()

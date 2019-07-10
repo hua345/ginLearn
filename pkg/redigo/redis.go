@@ -2,7 +2,7 @@ package redigo
 
 import (
 	"encoding/json"
-	"ginLearn/internal/pkg"
+	"ginLearn/pkg/config"
 	"time"
 
 	"github.com/gomodule/redigo/redis"
@@ -12,16 +12,16 @@ var RedisPools *redis.Pool
 
 func Init() error {
 	RedisPools = &redis.Pool{
-		MaxIdle:     pkg.RedisConfig.MaxIdle,
-		MaxActive:   pkg.RedisConfig.MaxActive,
-		IdleTimeout: pkg.RedisConfig.IdleTimeout,
+		MaxIdle:     config.RedisConfig.MaxIdle,
+		MaxActive:   config.RedisConfig.MaxActive,
+		IdleTimeout: config.RedisConfig.IdleTimeout,
 		Dial: func() (redis.Conn, error) {
-			pool, err := redis.Dial("tcp", pkg.RedisConfig.Host)
+			pool, err := redis.Dial("tcp", config.RedisConfig.Host)
 			if err != nil {
 				return nil, err
 			}
-			if pkg.RedisConfig.Password != "" {
-				if _, err := pool.Do("AUTH", pkg.RedisConfig.Password); err != nil {
+			if config.RedisConfig.Password != "" {
+				if _, err := pool.Do("AUTH", config.RedisConfig.Password); err != nil {
 					pool.Close()
 					return nil, err
 				}
